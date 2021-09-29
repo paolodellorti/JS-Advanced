@@ -8,18 +8,20 @@ class App {
         this.$searchButton = document.querySelector("#searchButton");
         this.$searchInput = document.querySelector("#searchInput");
         this.$container = document.querySelector("#container");
+        this.$form = document.forms[0];
 
         this.addEventListeners();
     };
 
     addEventListeners() {
-        window.addEventListener("keydown", event => {
-            if (event.keyCode == 13) {
+        this.$form.addEventListener("submit", event => {
+            event.preventDefault();
+            if (this.$searchInput.value) {
                 this.searchByInput(this.$searchInput.value);
+            } else {
+                this.$searchInput.setCustomValidity('Type a city to check the pollution!');
             }
         });
-
-        this.$searchButton.addEventListener("click", () => this.searchByInput(this.$searchInput.value));
 
         this.$positionButton.addEventListener("click", () => this.getAndStoreCoordinates());
     }
@@ -41,18 +43,15 @@ class App {
         fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.token}`)
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-            .catch(error => console.error(error));
+            .catch(error => alert(error));
     }
 
     searchByInput(input) {
-        if (input) {
-            fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
-                .then(response => response.json())
-                .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-                .catch(error => alert(error));
-        } else if (!input) {
-            this.noInputError();
-        }
+        console.log(`https://api.waqi.info/feed/${input}/?token=${this.token}`);
+        fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
+            .then(response => response.json())
+            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
+            .catch(error => alert(error));
     }
 
     updateDatas(city, aqi) {
@@ -82,10 +81,6 @@ class App {
     selectBorderAndTextColor(color) {
         this.$container.style.borderColor = color;
         this.$aqi.style.color = color;
-    }
-
-    noInputError() {
-        
     }
 }
 
