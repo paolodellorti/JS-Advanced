@@ -66,24 +66,28 @@ class App {
 
     changeColorByDanger(aqi) {
         if (aqi >= 0 && aqi <= 50) {
-            this.$container.style.borderColor = "#009966"
-            this.$aqi.style.color = "#009966"
+            this.selectBorderAndTextColor("#009966");
         } else if (aqi >= 51 && aqi <= 100) {
-            this.$container.style.borderColor = "#FFDE33"
-            this.$aqi.style.color = "#FFDE33"
+            this.selectBorderAndTextColor("#FFDE33");
         } else if (aqi >= 101 && aqi <= 150) {
-            this.$container.style.borderColor = "#FF9933"
-            this.$aqi.style.color = "#FF9933"
+            this.selectBorderAndTextColor("#FF9933");
         } else if (aqi >= 151 && aqi <= 200) {
-            this.$container.style.borderColor = "#CC0033"
-            this.$aqi.style.color = "#CC0033"
+            this.selectBorderAndTextColor("#CC0033");
         } else if (aqi >= 201 && aqi <= 300) {
-            this.$container.style.borderColor = "#660099"
-            this.$aqi.style.color = "#660099"
+            this.selectBorderAndTextColor("#660099");
         } else if (aqi > 300) {
-            this.$container.style.borderColor = "#7E0023"
-            this.$aqi.style.color = "#7E0023"
+            this.selectBorderAndTextColor("#7E0023");
+
         }
+    }
+
+    selectBorderAndTextColor(color) {
+        this.$container.style.borderColor = color;
+        this.$aqi.style.color = color;
+    }
+
+    noInputError() {
+        
     }
 }
 
