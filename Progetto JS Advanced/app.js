@@ -40,9 +40,7 @@ class App {
     searchByCoordinates(lat, lon) {
         fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.token}`)
             .then(response => response.json())
-            .then(data => {
-                this.updateDatas(data.data.city.name, data.data.aqi);
-            })
+            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(error => console.error(error));
     }
 
@@ -50,10 +48,10 @@ class App {
         if (input) {
             fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
                 .then(response => response.json())
-                .then(data => {
-                    this.updateDatas(data.data.city.name, data.data.aqi);
-                })
+                .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
                 .catch(error => alert(error));
+        } else if (!input) {
+            this.noInputError();
         }
     }
 
