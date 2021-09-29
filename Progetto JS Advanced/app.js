@@ -11,13 +11,14 @@ class App {
         this.$form = document.forms[0];
 
         this.addEventListeners();
+        this.displayLastPosition();
     };
 
     addEventListeners() {
         this.$form.addEventListener("submit", event => {
             const input = this.$searchInput.value;
             const isInputEmpty = !input.trim().length;
-            
+
             event.preventDefault();
             if(isInputEmpty) {
                 alert("Please, type a city!");
@@ -26,17 +27,20 @@ class App {
             }
         });
 
-        this.$positionButton.addEventListener("click", () => this.getAndStoreCoordinates());
+        this.$positionButton.addEventListener("click", () => this.getCoordinates());
     }
 
-    getAndStoreCoordinates() {
+    getCoordinates() {
         if(!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
         } else {
             const promise = new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
             
             promise
-                .then(position => this.searchByCoordinates(position.coords.latitude, position.coords.longitude))
+                .then(position => {
+                    this.searchByCoordinates(position.coords.latitude, position.coords.longitude);
+                    this.checkCoordinatesFromLS(position.coords.latitude, position.coords.longitude);
+                })
                 .catch(error => alert(error));
         }
     }
@@ -46,6 +50,29 @@ class App {
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(error => alert(error));
+    }
+
+    checkCoordinatesFromLS(lat, lon) {
+        if (localStorage.getItem("lastCoords")) {
+            let coords = JSON.parse(localStorage.getItem("lastCoords"))
+            if (coords.lat !== lat || coords.lon !== lon) {
+                this.setCoordinatesToLS(lat, lon)
+            }
+        } else {
+            this.setCoordinatesToLS(lat, lon);
+        }
+    }
+
+    setCoordinatesToLS(lat, lon) {
+        let coords = {"lat": lat, "lon": lon};
+        localStorage.setItem("lastCoords", JSON.stringify(coords));
+    }
+
+    displayLastPosition() {
+        if (localStorage.getItem("lastCoords")) {
+            let coords = JSON.parse(localStorage.getItem("lastCoords"))
+            this.searchByCoordinates(coords.lat, coords.lon)
+        }
     }
 
     searchByInput(input) {
