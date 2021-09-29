@@ -11,7 +11,7 @@ class App {
         this.$form = document.forms[0];
 
         this.addEventListeners();
-        this.displayLastPosition();
+        this.displayLastPositionFromLS();
     };
 
     addEventListeners() {
@@ -54,9 +54,9 @@ class App {
 
     checkCoordinatesFromLS(lat, lon) {
         if (localStorage.getItem("lastCoords")) {
-            let coords = JSON.parse(localStorage.getItem("lastCoords"))
+            let coords = JSON.parse(localStorage.getItem("lastCoords"));
             if (coords.lat !== lat || coords.lon !== lon) {
-                this.setCoordinatesToLS(lat, lon)
+                this.setCoordinatesToLS(lat, lon);
             }
         } else {
             this.setCoordinatesToLS(lat, lon);
@@ -68,10 +68,10 @@ class App {
         localStorage.setItem("lastCoords", JSON.stringify(coords));
     }
 
-    displayLastPosition() {
+    displayLastPositionFromLS() {
         if (localStorage.getItem("lastCoords")) {
-            let coords = JSON.parse(localStorage.getItem("lastCoords"))
-            this.searchByCoordinates(coords.lat, coords.lon)
+            let coords = JSON.parse(localStorage.getItem("lastCoords"));
+            this.searchByCoordinates(coords.lat, coords.lon);
         }
     }
 
@@ -87,6 +87,11 @@ class App {
                 }
             })
             .catch(error => alert(error));
+    }
+
+    errorUnknownCity() {
+        alert("Unknown city, please type another one!");
+        this.$searchInput.value = "";
     }
 
     updateDatas(city, aqi) {
@@ -118,10 +123,7 @@ class App {
         this.$aqi.style.color = color;
     }
 
-    errorUnknownCity() {
-        alert("Unknown city, please type another one!");
-        this.$searchInput.value = "";
-    }
+
 }
 
 new App();
