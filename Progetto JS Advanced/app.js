@@ -15,11 +15,14 @@ class App {
 
     addEventListeners() {
         this.$form.addEventListener("submit", event => {
+            const input = this.$searchInput.value;
+            const isInputEmpty = !input.trim().length;
+            
             event.preventDefault();
-            if (this.$searchInput.value) {
-                this.searchByInput(this.$searchInput.value);
+            if(isInputEmpty) {
+                alert("Please, type a city!");
             } else {
-                this.$searchInput.setCustomValidity('Type a city to check the pollution!');
+                this.searchByInput(input);
             }
         });
 
@@ -30,9 +33,8 @@ class App {
         if(!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
         } else {
-            const promise = new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
-            });
+            const promise = new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
+            
             promise
                 .then(position => this.searchByCoordinates(position.coords.latitude, position.coords.longitude))
                 .catch(error => alert(error));
@@ -50,7 +52,13 @@ class App {
         console.log(`https://api.waqi.info/feed/${input}/?token=${this.token}`);
         fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
             .then(response => response.json())
-            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
+            .then(datas => {
+                if (datas.data === "Unknown station") {
+                    this.errorUnknownCity();
+                } else {
+                    this.updateDatas(datas.data.city.name, datas.data.aqi);
+                }
+            })
             .catch(error => alert(error));
     }
 
@@ -81,6 +89,11 @@ class App {
     selectBorderAndTextColor(color) {
         this.$container.style.borderColor = color;
         this.$aqi.style.color = color;
+    }
+
+    errorUnknownCity() {
+        alert("Unknown city, please type another one!");
+        this.$searchInput.value = "";
     }
 }
 
