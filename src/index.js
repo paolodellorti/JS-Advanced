@@ -14,7 +14,6 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        console.log(this.token);
     };
 
     addEventListeners() {
@@ -82,7 +81,7 @@ class App {
     }
 
     searchByInput(input) {
-        // fetch(`https://api.waqi.info/search/?token=${this.token}&keyword=${input}`)
+        console.log(this.token);
         fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
             .then(response => response.json())
             .then(datas => {
