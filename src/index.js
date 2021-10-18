@@ -1,7 +1,16 @@
 import "./styles/style.css";
 
+async function callLambdaFunction() {
+    // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
+    const response = await fetch("/.netlify/functions/lambda");
+    const data = await response.json();
+  
+    console.log(data);
+}
+
 class App {
     constructor() {
+        
         this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
@@ -26,7 +35,7 @@ class App {
             if(isInputEmpty) {
                 alert("Please, type a city!");
             } else {
-                this.searchByInput(input);
+                callLambdaFunction();
             }
         });
 
