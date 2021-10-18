@@ -2,7 +2,7 @@ import "./styles/style.css";
 
 class App {
     constructor() {
-        this.token = "c959a7c7725869fa29e518f16f2ce8bd1c5daafd"
+        this.token = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");

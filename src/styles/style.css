@@ -6,7 +6,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("../imgs/demo.jpg");
+    background-image: url("https://www.pixblick.de/images/product_images/original_images/fototapete_chicago%20(1).jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
