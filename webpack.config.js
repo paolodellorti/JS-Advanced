@@ -1,9 +1,11 @@
 // Plugin che ci permette di utilizzare un template nel codice sorgente e ottimizzarlo per la versione che andrà online
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 // Libreria che ci permette di utilizzare le Environment Variables durante lo sviluppo locale
-const Dotenv = require('dotenv-webpack')
+const Dotenv = require('dotenv-webpack');
 // Modulo di NodeJS che dà la possibilità di interagire con file e cartelle locali
-const path = require('path')
+const path = require('path');
+// modulo che elimina la cartella vecchia prima di eseguire la build
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 // Per permettere a WebPack di utilizzare gli argomenti il modulo deve essere una funzione (normalmente è un oggetto)
 module.exports = (env, argv) => {
@@ -23,7 +25,7 @@ module.exports = (env, argv) => {
     },
     // Configurazione di un plugin, necessario per sveltire il processo di sviluppo vedi asterischi nello snippet successivo **
     devServer: {
-      contentBase: './build',
+      static: './build',
       open: true
     },
     plugins: [
@@ -33,7 +35,29 @@ module.exports = (env, argv) => {
         template: path.resolve(__dirname, './src/index.html'),
       }),
       // Qui dotenv-webpack viene inizializzato
-      new Dotenv()
-    ]
+      new Dotenv(),
+      new CleanWebpackPlugin({ template: "build" })
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"]
+        },
+        {
+          test: /\.(png|jpeg|jpg|gif|ico|svg)$/i,
+          use: [ 
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'images/',
+                publicPath: 'images/'
+              }
+          }
+          ]
+        }
+      ],
+    }
   }
 };

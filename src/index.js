@@ -1,3 +1,5 @@
+import "./styles/style.css";
+
 class App {
     constructor() {
         this.token = "c959a7c7725869fa29e518f16f2ce8bd1c5daafd"
@@ -131,5 +133,3 @@ class App {
 }
 
 new App();
-
-console.log("ciaooooo");
