@@ -2,8 +2,8 @@ import "./styles/style.css";
 
 class App {
     constructor() {
-        this.token = process.env.API_KEY;
-        
+        this.token = "/.netlify/functions/lambda";
+
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
         this.$positionButton = document.querySelector("#positionButton");
