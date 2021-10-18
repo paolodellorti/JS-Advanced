@@ -2,7 +2,7 @@ import "./styles/style.css";
 
 class App {
     constructor() {
-        this.API_KEY = "/.netlify/functions/lambda";
+        this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");

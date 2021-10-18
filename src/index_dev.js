@@ -2,7 +2,7 @@ import "./styles/style.css";
 
 class App {
     constructor() {
-        this.token = process.env.API_KEY;
+        this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
@@ -50,7 +50,7 @@ class App {
     }
 
     searchByCoordinates(lat, lon) {
-        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.token}`)
+        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?API_KEY=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(error => alert(error));
@@ -81,8 +81,8 @@ class App {
     }
 
     searchByInput(input) {
-        // fetch(`https://api.waqi.info/search/?token=${this.token}&keyword=${input}`)
-        fetch(`https://api.waqi.info/feed/${input}/?token=${this.token}`)
+        // fetch(`https://api.waqi.info/search/?API_KEY=${this.API_KEY}&keyword=${input}`)
+        fetch(`https://api.waqi.info/feed/${input}/?API_KEY=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => {
                 console.log(datas);
