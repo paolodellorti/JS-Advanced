@@ -16,6 +16,8 @@ class App {
         this.displayLastPositionFromLS();
     };
 
+    console.log(this.token);
+
     addEventListeners() {
         this.$form.addEventListener("submit", event => {
             event.preventDefault();
