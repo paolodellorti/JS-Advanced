@@ -1,18 +1,18 @@
 import "./styles/style.css";
 
-// async function callLambdaFunction() {
-//     // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
-//     const response = await fetch("/.netlify/functions/lambda");
-//     const data = await response.json();
+async function callLambdaFunction() {
+    // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
+    const response = await fetch("/.netlify/functions/lambda");
+    const data = await response.json();
   
-//     console.log(data);
-// }
-// callLambdaFunction()
+    console.log(data);
+}
+callLambdaFunction()
 
 class App {
     constructor() {
         
-        this.API_KEY = "c959a7c7725869fa29e518f16f2ce8bd1c5daafd";
+        this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
@@ -60,7 +60,7 @@ class App {
     }
 
     searchByCoordinates(lat, lon) {
-        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?API_KEY=${this.API_KEY}`)
+        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(error => alert(error));
@@ -92,7 +92,7 @@ class App {
 
     searchByInput(input) {
         console.log(this.API_KEY);
-        fetch(`https://api.waqi.info/feed/${input}/?API_KEY=${this.API_KEY}`)
+        fetch(`https://api.waqi.info/feed/${input}/?token=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => {
                 console.log(datas);

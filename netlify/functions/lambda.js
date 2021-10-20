@@ -5,7 +5,7 @@ exports.handler = async event => {
   console.log(API_KEY);
 
   // qui facciamo la chiamata alla API esattamente come la facevamo prima in index_dev.js
-  const response = await fetch(`https://api.waqi.info/feed/roma/?API_KEY=${API_KEY}`)
+  const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`)
   const data = await response.json() 
 
   // da qui in giù la funzione fa da back-end: elaboriamo dei dati e li rimandiamo al front-end in formato JSON con uno statusCode 200, cioè "successo".
