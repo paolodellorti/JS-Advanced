@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = import("node-fetch");
 exports.handler = async event => {
 
   // Più tardi imposteremo una variabile d'ambiente interna a Netlify stesso, accessibile semplicemente così:
