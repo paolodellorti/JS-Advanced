@@ -15,8 +15,9 @@ async function callLambdaFunction() {
     // })
 
     const response = await fetch("/.netlify/functions/lambda");
+    const json = await response.json();
     
-    console.log(response);
+    console.log(json);
 
 }
 callLambdaFunction()
