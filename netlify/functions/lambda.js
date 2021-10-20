@@ -17,8 +17,13 @@ exports.handler = async event => {
 
 //   return pass(data)
 // }
+
+  const api = {
+    token: "vivalamamma"
+  }  
+
   return {
         statusCode: 200,
-        body: JSON.stringify({message: "Hello World"})
+        body: JSON.stringify(api)
   }
 }
