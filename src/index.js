@@ -7,6 +7,7 @@ async function callLambdaFunction() {
   
     console.log(data);
 }
+callLambdaFunction()
 
 class App {
     constructor() {
@@ -35,7 +36,7 @@ class App {
             if(isInputEmpty) {
                 alert("Please, type a city!");
             } else {
-                callLambdaFunction();
+                this.searchByInput(input);
             }
         });
 
