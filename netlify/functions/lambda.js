@@ -2,7 +2,6 @@ exports.handler = async event => {
 
   // Più tardi imposteremo una variabile d'ambiente interna a Netlify stesso, accessibile semplicemente così:
   const API_KEY =  process.env.API_KEY
-  console.log(API_KEY);
 
   // qui facciamo la chiamata alla API esattamente come la facevamo prima in index_dev.js
   const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`)

@@ -1,11 +1,18 @@
 import "./styles/style.css";
+const axios = require('axios');
 
 async function callLambdaFunction() {
     // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
-    const response = await fetch("/.netlify/functions/lambda");
-    const data = await response.json();
-  
-    console.log(data);
+    // const response = await fetch("/.netlify/functions/lambda");
+    // const data = await response.json();
+    
+    // console.log(data);
+
+    axios.get("/.netlify/functions/lambda")
+    .then(function (response) {
+    // handle success
+        console.log(response);
+    })
 }
 callLambdaFunction()
 
