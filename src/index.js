@@ -1,25 +1,25 @@
 import "./styles/style.css";
-const axios = require('axios');
+// const axios = require('axios');
 
-async function callLambdaFunction() {
-    // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
-    // const response = await fetch("/.netlify/functions/lambda");
-    // const data = await response.json();
+// async function callLambdaFunction() {
+//     // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
+//     // const response = await fetch("/.netlify/functions/lambda");
+//     // const data = await response.json();
     
-    // console.log(data);
+//     // console.log(data);
 
-    axios.get("/.netlify/functions/lambda")
-    .then(function (response) {
-    // handle success
-        console.log(response);
-    })
-}
-callLambdaFunction()
+//     axios.get("/.netlify/functions/lambda")
+//     .then(function (response) {
+//     // handle success
+//         console.log(response);
+//     })
+// }
+// callLambdaFunction()
 
 class App {
     constructor() {
         
-        this.API_KEY = process.env.API_KEY;
+        this.API_KEY = 'c959a7c7725869fa29e518f16f2ce8bd1c5daafd';
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
