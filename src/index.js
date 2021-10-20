@@ -1,20 +1,25 @@
 import "./styles/style.css";
 // const axios = require('axios');
 
-// async function callLambdaFunction() {
-//     // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
-//     // const response = await fetch("/.netlify/functions/lambda");
-//     // const data = await response.json();
+async function callLambdaFunction() {
+    // qui la magia: facciamo una chiamata ad una funzione che creeremo fra poco in un file a parte e che Netlify chiama dal proprio back-end in modo sicuro e privato quando necessario
+    // const response = await fetch("/.netlify/functions/lambda");
+    // const data = await response.json();
     
-//     // console.log(data);
+    // console.log(data);
 
-//     axios.get("/.netlify/functions/lambda")
-//     .then(function (response) {
-//     // handle success
-//         console.log(response);
-//     })
-// }
-// callLambdaFunction()
+    // axios.get("/.netlify/functions/lambda")
+    // .then(function (response) {
+    // // handle success
+    //     console.log(response);
+    // })
+
+    const response = await fetch("/.netlify/functions/lambda");
+    
+    console.log(response.body);
+
+}
+callLambdaFunction()
 
 class App {
     constructor() {
