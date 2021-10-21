@@ -1,16 +1,16 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const qs = require("qs");
+
 exports.handler = async event => {
 
-  // Più tardi imposteremo una variabile d'ambiente interna a Netlify stesso, accessibile semplicemente così:
-  const API_KEY =  process.env.API_KEY
+  const API_KEY =  process.env.API_KEY;
+  const API_PARAMS = qs.stringify(event.queryStringParameters.search);
 
-  // qui facciamo la chiamata alla API esattamente come la facevamo prima in index_dev.js
-  const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`)
-  const data = await response.json() 
+  const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`);
+  const data = await response.json();
 
-  // da qui in giù la funzione fa da back-end: elaboriamo dei dati e li rimandiamo al front-end in formato JSON con uno statusCode 200, cioè "successo".
   return {
     statusCode: 200,
-    body: JSON.stringify(data)
+    body: JSON.stringify(API_PARAMS)
   }
 }
