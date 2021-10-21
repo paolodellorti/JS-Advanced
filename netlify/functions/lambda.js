@@ -2,19 +2,19 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 const API_KEY =  process.env.API_KEY;
 
 exports.handler = async event => {
+  const query = event.queryStringParameters;
+  let datas;
 
-  let API_PARAMS;
-  if (event.queryStringParameters.lat) {
-    API_PARAMS = event.queryStringParameters.lat + "&&" + event.queryStringParameters.lon;
-  } else {
-    API_PARAMS = event.queryStringParameters.city;
+  if (query.city) {
+    const response = await fetch(`https://api.waqi.info/feed/${query.city}/?token=${API_KEY}`);
+    datas = await response.json();
+  } else if (query.lat && query.lon) {
+    const response = await fetch(`https://api.waqi.info/feed/geo:${query.lat};${query.lon}/?token=${API_KEY}`);
+    datas = await response.json();
   }
-
-  const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`);
-  const data = await response.json();
 
   return {
     statusCode: 200,
-    body: JSON.stringify(API_PARAMS)
+    body: JSON.stringify(datas)
   }
 }
