@@ -34,7 +34,11 @@ class App {
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas);
+            .then(datas => {
+                console.log(datas);
+                return datas
+            })
+            .catch(err);
     }
 
     getCoordinates() {
