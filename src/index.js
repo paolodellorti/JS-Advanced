@@ -42,7 +42,7 @@ class App {
                 }
             })
             .catch(err => {
-                if (err.TypeError === "Cannot read properties of undefined (reading 'name')"){
+                if (err === "Cannot read properties of undefined (reading 'name')"){
                     alert("Unknown city, please type another one!");
                 } else {
                     alert(err)
