@@ -45,7 +45,7 @@ class App {
                 if (err === "Cannot read properties of undefined (reading 'name')"){
                     alert("Unknown city, please type another one!");
                 } else {
-                    alert(err)
+                    console.log(err);
                 }
             });
     }
