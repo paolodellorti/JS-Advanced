@@ -9,6 +9,9 @@ exports.handler = async event => {
     try {
       const response = await fetch(`https://api.waqi.info/feed/${query.city}/?token=${API_KEY}`);
       responseFromAPI = await response.json();
+      if (responseFromAPI.data === "Unknown station") {
+        alert("Unknown city, please type another one!");
+      }
     } catch (error) {
       console.error(error);
     }
