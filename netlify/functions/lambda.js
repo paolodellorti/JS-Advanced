@@ -6,11 +6,19 @@ exports.handler = async event => {
   let responseFromAPI;
 
   if (query.city) {
-    const response = await fetch(`https://api.waqi.info/feed/${query.city}/?token=${API_KEY}`);
-    responseFromAPI = await response.json();
+    try {
+      const response = await fetch(`https://api.waqi.info/feed/${query.city}/?token=${API_KEY}`);
+      responseFromAPI = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
   } else if (query.lat && query.lon) {
-    const response = await fetch(`https://api.waqi.info/feed/geo:${query.lat};${query.lon}/?token=${API_KEY}`);
-    responseFromAPI = await response.json();
+    try {
+      const response = await fetch(`https://api.waqi.info/feed/geo:${query.lat};${query.lon}/?token=${API_KEY}`);
+      responseFromAPI = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return {
