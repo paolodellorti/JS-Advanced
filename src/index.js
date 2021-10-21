@@ -34,10 +34,7 @@ class App {
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => {
-                console.log(datas);
-                return datas
-            })
+            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(err);
     }
 
@@ -52,9 +49,7 @@ class App {
                 .then(position => {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    const fetchDatas = this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                    console.log(fetchDatas);
-                    this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi)
+                    this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
                     this.checkCoordinatesFromLS(lat, lon);
                 })
                 .catch(error => alert(error));
@@ -86,13 +81,13 @@ class App {
     }
 
     searchByInput(input) {
-        let fetchDatas = this.callLambdaFunction(`city=${input}`);
-        console.log(fetchDatas);
-        if (fetchDatas.data === "Unknown station") {
-            this.errorUnknownCity();
-        } else {
-            this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi);
-        }
+        this.callLambdaFunction(`city=${input}`);
+        
+        // if (fetchDatas.data === "Unknown station") {
+        //     this.errorUnknownCity();
+        // } else {
+        //     this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi);
+        // }
 }
 
     errorUnknownCity() {
