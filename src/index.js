@@ -12,7 +12,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        this.callLambdaFunction("ciao");
+        this.callLambdaFunction(345);
     };
 
     addEventListeners() {
