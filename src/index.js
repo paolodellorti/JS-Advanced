@@ -14,7 +14,7 @@ async function callLambdaFunction() {
     //     console.log(response);
     // })
 
-    const response = await fetch(`/.netlify/functions/lambda`);
+    const response = await fetch(`/.netlify/functions/lambda`, {queryStringParameters: {lat: "lon"}});
     const json = await response.json();
     
     console.log(json);
