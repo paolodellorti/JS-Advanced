@@ -12,7 +12,6 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        this.callLambdaFunction("?city=rome");
     };
 
     addEventListeners() {
@@ -33,9 +32,9 @@ class App {
     }
 
     callLambdaFunction(query) {
-        fetch(`/.netlify/functions/lambda${query}`)
+        fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => console.log(datas));
+            .then(datas => datas);
     }
 
     getCoordinates() {
@@ -47,18 +46,14 @@ class App {
             
             promise
                 .then(position => {
-                    this.searchByCoordinates(position.coords.latitude, position.coords.longitude);
-                    this.checkCoordinatesFromLS(position.coords.latitude, position.coords.longitude);
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const fetchDatas = this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
+                    this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi)
+                    this.checkCoordinatesFromLS(lat, lon);
                 })
                 .catch(error => alert(error));
         }
-    }
-
-    searchByCoordinates(lat, lon) {
-        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.API_KEY}`)
-            .then(response => response.json())
-            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-            .catch(error => alert(error));
     }
 
     checkCoordinatesFromLS(lat, lon) {
@@ -86,19 +81,13 @@ class App {
     }
 
     searchByInput(input) {
-        console.log(this.API_KEY);
-        fetch(`https://api.waqi.info/feed/${input}/?token=${this.API_KEY}`)
-            .then(response => response.json())
-            .then(datas => {
-                console.log(datas);
-                if (datas.data === "Unknown station") {
-                    this.errorUnknownCity();
-                } else {
-                    this.updateDatas(datas.data.city.name, datas.data.aqi);
-                }
-            })
-            .catch(error => alert(error));
-    }
+        let fetchDatas = this.callLambdaFunction(`city=${input}`);
+        if (fetchDatas.data === "Unknown station") {
+            this.errorUnknownCity();
+        } else {
+            this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi);
+        }
+}
 
     errorUnknownCity() {
         alert("Unknown city, please type another one!");

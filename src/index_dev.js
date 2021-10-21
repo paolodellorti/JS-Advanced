@@ -2,7 +2,6 @@ import "./styles/style.css";
 
 class App {
     constructor() {
-        this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
@@ -14,6 +13,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
+        this.callLambdaFunction("city=rome");
     };
 
     addEventListeners() {
@@ -31,6 +31,12 @@ class App {
         });
 
         this.$positionButton.addEventListener("click", () => this.getCoordinates());
+    }
+
+    callLambdaFunction(query) {
+        fetch(`/.netlify/functions/lambda?${query}`)
+            .then(response => response.json())
+            .then(datas => console.log(datas));
     }
 
     getCoordinates() {
