@@ -2,6 +2,11 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 exports.handler = async event => {
 
+  console.log(event);
+  console.log(event.queryStringParameters);
+  console.log(event.queryStringParameters.query);
+
+
   const API_KEY =  process.env.API_KEY;
   const API_PARAMS = event.queryStringParameters.query;
 
