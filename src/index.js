@@ -12,7 +12,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        this.callLambdaFunction(345);
+        this.callLambdaFunction("?city=rome");
     };
 
     addEventListeners() {
@@ -33,7 +33,7 @@ class App {
     }
 
     callLambdaFunction(query) {
-        fetch(`/.netlify/functions/lambda?query=${query}`)
+        fetch(`/.netlify/functions/lambda${query}`)
             .then(response => response.json())
             .then(datas => console.log(datas));
     }
