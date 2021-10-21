@@ -1,21 +1,7 @@
 import "./styles/style.css";
 
-async function callLambdaFunction() {
-    const lat = "lon"
-
-    const response = await fetch(`/.netlify/functions/lambda?lat=${lat}`);
-    const json = await response.json();
-    
-    console.log(json);
-
-}
-callLambdaFunction()
-
 class App {
     constructor() {
-        
-        this.API_KEY = 'c959a7c7725869fa29e518f16f2ce8bd1c5daafd';
-
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
         this.$positionButton = document.querySelector("#positionButton");
@@ -26,6 +12,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
+        this.callLambdaFunction({ciao: "comeva?"});
     };
 
     addEventListeners() {
@@ -43,6 +30,12 @@ class App {
         });
 
         this.$positionButton.addEventListener("click", () => this.getCoordinates());
+    }
+
+    callLambdaFunction(query) {
+        fetch(`/.netlify/functions/lambda?query=${query}`)
+            .then(response => response.json())
+            .then(datas => console.log(datas));
     }
 
     getCoordinates() {
