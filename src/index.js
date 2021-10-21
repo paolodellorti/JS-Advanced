@@ -12,7 +12,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        this.callLambdaFunction({ciao: "comeva?"});
+        this.callLambdaFunction("ciao");
     };
 
     addEventListeners() {
@@ -33,8 +33,7 @@ class App {
     }
 
     callLambdaFunction(query) {
-        const queryJ = JSON.stringify(query);
-        fetch(`/.netlify/functions/lambda?query=${queryJ}`)
+        fetch(`/.netlify/functions/lambda?query=${query}`)
             .then(response => response.json())
             .then(datas => console.log(datas));
     }
