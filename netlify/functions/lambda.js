@@ -8,7 +8,7 @@ exports.handler = async event => {
 
 
   const API_KEY =  process.env.API_KEY;
-  const API_PARAMS;
+  let API_PARAMS;
   if (event.queryStringParameters.lat) {
     API_PARAMS = event.queryStringParameters.lat;
   } else {
