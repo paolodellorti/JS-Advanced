@@ -35,7 +35,7 @@ class App {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-            .catch(err);
+            .catch(err => alert(err));
     }
 
     getCoordinates() {
