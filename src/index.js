@@ -50,7 +50,7 @@ class App {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                    this.checkCoordinatesFromLS(lat, lon);
+                    // this.checkCoordinatesFromLS(lat, lon);
                 })
                 .catch(error => alert(error));
         }
