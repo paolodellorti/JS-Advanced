@@ -14,7 +14,7 @@ async function callLambdaFunction(search) {
     //     console.log(response);
     // })
 
-    const response = await fetch(`/.netlify/functions/lambda?search=${search}`);
+    const response = await fetch(`/.netlify/functions/lambda/[${search}]`);
     const json = await response.json();
     
     console.log(json);
