@@ -41,7 +41,7 @@ class App {
                     this.updateDatas(datas.data.city.name, datas.data.aqi);
                 }
             })
-            .catch(err => alert(err));
+            .catch(err => alert(err+"zio caneeeeee"));
     }
 
     getCoordinates() {
