@@ -35,7 +35,7 @@ class App {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
             .then(datas => {
-                if (datas.data.city.name == undefined) {
+                if (datas.data.city.name === "Unknown station") {
                     alert("Unknown city, please type another one!");
                 } else {
                     this.updateDatas(datas.data.city.name, datas.data.aqi);
