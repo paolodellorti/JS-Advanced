@@ -34,7 +34,13 @@ class App {
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
+            .then(datas => {
+                if (datas.data.city.name == undefined) {
+                    alert("Unknown city, please type another one!");
+                } else {
+                    this.updateDatas(datas.data.city.name, datas.data.aqi);
+                }
+            })
             .catch(err => alert(err));
     }
 
