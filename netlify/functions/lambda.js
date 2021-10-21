@@ -1,16 +1,11 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const API_KEY =  process.env.API_KEY;
 
 exports.handler = async event => {
 
-  console.log(event);
-  console.log(event.queryStringParameters);
-  console.log(event.queryStringParameters.query);
-
-
-  const API_KEY =  process.env.API_KEY;
   let API_PARAMS;
   if (event.queryStringParameters.lat) {
-    API_PARAMS = event.queryStringParameters.lat;
+    API_PARAMS = event.queryStringParameters.lat + "&&" + event.queryStringParameters.lon;
   } else {
     API_PARAMS = event.queryStringParameters.city;
   }

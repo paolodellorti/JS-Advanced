@@ -12,7 +12,7 @@ class App {
 
         this.addEventListeners();
         this.displayLastPositionFromLS();
-        this.callLambdaFunction("?city=rome");
+        this.callLambdaFunction("?lat=rome&lon=milan");
     };
 
     addEventListeners() {
