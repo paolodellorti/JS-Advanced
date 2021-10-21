@@ -8,7 +8,12 @@ exports.handler = async event => {
 
 
   const API_KEY =  process.env.API_KEY;
-  const API_PARAMS = event.queryStringParameters.lat;
+  const API_PARAMS
+  if (event.queryStringParameters.lat) {
+    API_PARAMS = event.queryStringParameters.lat;
+  } else {
+    API_PARAMS = event.queryStringParameters.city;
+  }
 
   const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`);
   const data = await response.json();
