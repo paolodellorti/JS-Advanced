@@ -41,7 +41,13 @@ class App {
                     this.updateDatas(datas.data.city.name, datas.data.aqi);
                 }
             })
-            .catch(err => alert(err+"zio caneeeeee"));
+            .catch(err => {
+                if (err.TypeError === "Cannot read properties of undefined (reading 'name')"){
+                    alert("Unknown city, please type another one!");
+                } else {
+                    alert(err)
+                }
+            });
     }
 
     getCoordinates() {
