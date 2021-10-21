@@ -33,7 +33,8 @@ class App {
     }
 
     callLambdaFunction(query) {
-        fetch(`/.netlify/functions/lambda?query=${query}`)
+        const queryJ = JSON.stringify(query);
+        fetch(`/.netlify/functions/lambda?query=${queryJ}`)
             .then(response => response.json())
             .then(datas => console.log(datas));
     }

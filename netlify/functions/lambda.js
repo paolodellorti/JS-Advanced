@@ -8,7 +8,7 @@ exports.handler = async event => {
 
 
   const API_KEY =  process.env.API_KEY;
-  const API_PARAMS = event.queryStringParameters.query.ciao;
+  const API_PARAMS = event.queryStringParameters.query.json();
 
   const response = await fetch(`https://api.waqi.info/feed/roma/?token=${API_KEY}`);
   const data = await response.json();
