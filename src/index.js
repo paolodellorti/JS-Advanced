@@ -21,11 +21,7 @@ class App {
             const input = this.$searchInput.value;
             const isInputEmpty = !input.trim().length;
 
-            if(isInputEmpty) {
-                alert("Please, type a city!");
-            } else {
-                this.searchByInput(input);
-            }
+            isInputEmpty ? alert("Please, type a city!") : this.searchByInput(input);
         });
 
         this.$positionButton.addEventListener("click", () => this.getCoordinates());
