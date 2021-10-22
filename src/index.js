@@ -42,7 +42,7 @@ class App {
                 }
             })
             .catch(err => {
-                if (err.name === "TypeErrorCannot: read properties of undefined (reading 'name')"){
+                if (err.name === "TypeError"){
                     alert("Unknown city, please type another one!");
                 } else {
                     console.log(err);
