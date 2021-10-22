@@ -34,19 +34,10 @@ class App {
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => {
-                if (datas.data.city.name === "Unknown station") {
-                    alert("Unknown city, please type another one!");
-                } else {
-                    this.updateDatas(datas.data.city.name, datas.data.aqi);
-                }
-            })
+            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
             .catch(err => {
-                if (err.name === "TypeError"){
-                    alert("Unknown city, please type another one!");
-                } else {
-                    console.log(err);
-                }
+                const isTypeErr = err.name === "TypeError" ? "Unknown city, please type another one!" : err;
+                alert(isTypeErr)
             });
     }
 
