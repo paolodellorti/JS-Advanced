@@ -2,6 +2,7 @@ import "./styles/style.css";
 
 class App {
     constructor() {
+        this.API_KEY = process.env.API_KEY;
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
@@ -95,6 +96,7 @@ class App {
                 if (datas.data === "Unknown station") {
                     this.errorUnknownCity();
                 } else {
+                    console.log(datas);
                     this.updateDatas(datas.data.city.name, datas.data.aqi);
                 }
             })

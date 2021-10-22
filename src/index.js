@@ -21,7 +21,7 @@ class App {
             const input = this.$searchInput.value;
             const isInputEmpty = !input.trim().length;
 
-            isInputEmpty ? alert("Please, type a city!") : this.searchByInput(input);
+            isInputEmpty ? alert("Please, type a city!") : this.callLambdaFunction(`city=${input}`);
         });
 
         this.$positionButton.addEventListener("click", () => this.getCoordinates());
@@ -31,12 +31,12 @@ class App {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
             .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-            .catch(err => alert(err.name === "TypeError" ? "Unknown city, please type another one!" : err));
+            .catch(err => alert(err.name === "TypeError" ? "Unknown city, please type another one!" : err))
+            .finally(this.$searchInput.value = "");
     }
 
     getCoordinates() {
-        const hasNotGeolocation = !navigator.geolocation;
-        if(hasNotGeolocation) {
+        if(!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
         } else {
             const promise = new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
@@ -46,7 +46,6 @@ class App {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                    // this.checkCoordinatesFromLS(lat, lon);
                 })
                 .catch(error => alert(error));
         }
@@ -76,25 +75,9 @@ class App {
         }
     }
 
-    searchByInput(input) {
-        this.callLambdaFunction(`city=${input}`);
-        
-        // if (fetchDatas.data === "Unknown station") {
-        //     this.errorUnknownCity();
-        // } else {
-        //     this.updateDatas(fetchDatas.data.city.name, fetchDatas.data.aqi);
-        // }
-}
-
-    errorUnknownCity() {
-        alert("Unknown city, please type another one!");
-        this.$searchInput.value = "";
-    }
-
     updateDatas(city, aqi) {
         this.$city.innerHTML = city;
         this.$aqi.innerHTML = aqi;
-        this.$searchInput.value = "";
         this.changeColorByDanger(aqi);
     }
 
@@ -111,7 +94,6 @@ class App {
             this.selectBorderAndTextColor("#660099");
         } else if (aqi > 300) {
             this.selectBorderAndTextColor("#7E0023");
-
         }
     }
 

@@ -18,7 +18,11 @@ body {
     height: 50%;
     border: 5px solid;
     border-color: black;
-    background-color: rgba(240, 240, 240, 0.8)
+    background-color: rgba(240, 240, 240, 0.85)
+}
+
+#aqi {
+    -webkit-text-stroke: 1px black; /* width and color */
 }
 
 .errorInput {
