@@ -51,8 +51,6 @@ class App {
             center: position,
             zoom: 15,
         };
-
-        console.log(mapOptions);
         
         loader
             .load()
