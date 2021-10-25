@@ -80,7 +80,7 @@ class App {
             this.displayMessageButton(this.$searchButton, "First type a city!", "#ee6352");
         } else {
             this.callLambdaFunction(`city=${input}`);
-            this.displayMessageButton(this.$searchButton, "Done!", "#59cd90");
+            this.$searchButton.value = "Searching..."
         }
     }
 
@@ -123,6 +123,7 @@ class App {
             .then(response => response.json())
             .then(datas => {
                 this.updateDatas(datas);
+                this.$searchButton.value = "Search"
             })
             .catch(err => {
                 if (err.name === "TypeError") {
