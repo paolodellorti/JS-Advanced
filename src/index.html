@@ -11,18 +11,54 @@
 </head>
 <body>
     <div id="container">
-        <h1>CITY</h1>
-        <h2 id="city">-</h2>
-        
-        <h1>AQI index</h1>
-        <h2 id="aqi">-</h2>
-        
-        <form name="form">
-            <input type="button" id="positionButton" value="Get your position"></input><br><br>
+        <div id="datasContainer">
+            <h1>Current Station</h1>
+            <h2 id="city">-</h2>
+            
+            <h1>AQI index</h1>
+            <h2 id="aqi">-</h2>
+            <h3 id="aqiTitleDescription"></h3>
+            <h4 id="aqiDescription"></h4>
+            <h6 id="lastUpdate"></h6>
+        </div>
+        <div id="containerSavedPosition">
+            <span id="savedPosition">&#128190</span>
+            <span id="deleteButton">&#9249;</span>
+        </div>
+    </div>
+
+    <form name="form" id="form">
+        <input type="button" id="homeButton" value="&#8962;"></input>
+        <div id="inputContainer">
             <input type="text" id="searchInput" placeholder="Type a city"></input> 
             <input type="submit" id="searchButton" value="Search"></input>
-        </form>
+        </div>
+        <input type="button" id="positionButton" value="Get your position   &#x1F6A9;"></input>
+        <input type="button" id="saveButton" value="Save position   &#11123;"></input>
+        <input type="button" id="uploadButton" value="Upload position   &#11121;"></input>
+    </form>
+
+    <div id="map">
+        <div id="homePage">
+            <h1>Air Quality Index Tracker</h1>
+            With this application you can check the <a href="https://aqicn.org/faq/" target="_blank">AQI</a> of the place you prefer:
+            <br><br>
+            <ul>
+                <li>You can search for a specific city by typing it in the input text.</li>
+                <br>
+                <li>You can look for your nearest station, with the specific button and allowing geolocation on your browser.</li>
+                <br>
+                <li>You can save the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
+                <br>
+                <li>You can upload a saved position.</li>
+            </ul>
+            <br>
+            This is a project for the <a href="https://www.start2impact.it/" target="_blank">start2impact</a> Web Development course.
+            <br><br>
+            Made by <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">Paolo Dell'Orti</a>. 
+        </div>
     </div>
+
     
     <script src="index.js"></script>
 </body>

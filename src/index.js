@@ -1,43 +1,157 @@
 import "./styles/style.css";
+import { Loader } from '@googlemaps/js-api-loader';
 
 class App {
     constructor() {
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
-        this.$positionButton = document.querySelector("#positionButton");
+        this.$aqiDescription = document.querySelector("#aqiDescription");
+        this.$aqiTitleDescription = document.querySelector("#aqiTitleDescription");
+        this.$lastUpdate = document.querySelector("#lastUpdate");
+        this.$homeButton = document.querySelector("#homeButton");
         this.$searchButton = document.querySelector("#searchButton");
         this.$searchInput = document.querySelector("#searchInput");
-        this.$container = document.querySelector("#container");
+        this.$positionButton = document.querySelector("#positionButton");
+        this.$saveButton = document.querySelector("#saveButton");
+        this.$savedPosition = document.querySelector("#savedPosition");
+        this.$deleteButton = document.querySelector("#deleteButton");
+        this.$uploadButton = document.querySelector("#uploadButton");
+        this.$map = document.querySelector("#map");
         this.$form = document.forms[0];
 
+        this.currentDatas;
+
         this.addEventListeners();
-        this.displayLastPositionFromLS();
+        this.loadLocalStorage();
+
     };
 
     addEventListeners() {
-        this.$form.addEventListener("submit", event => {
-            event.preventDefault();
+        this.$homeButton.addEventListener("click", () => this.backToHome());
+        this.$form.addEventListener("submit", event => this.submitForm(event));    
+        this.$positionButton.addEventListener("click", () => this.searchByCoordinates());
+        this.$saveButton.addEventListener("click", () => this.savePosition(this.currentDatas));
+        this.$uploadButton.addEventListener("click", () => this.uploadPosition());
+        this.$deleteButton.addEventListener("click", () => this.deletePosition());
+    }
 
-            const input = this.$searchInput.value;
-            const isInputEmpty = !input.trim().length;
+    createMap(datas) {
+        const position = {
+            lat: datas.data.city.geo[0],
+            lng: datas.data.city.geo[1]
+        };
+        
+        const loader = new Loader({
+            apiKey: "AIzaSyBGIB2DTt9s_HsZmOfxDimB9FkA_f_b5ws",
+            version: "weekly",
+            libraries: ["places"]
+          });
+          
+        const mapOptions = {
+            center: position,
+            zoom: 15,
+        };
 
-            isInputEmpty ? alert("Please, type a city!") : this.callLambdaFunction(`city=${input}`);
-        });
+        console.log(mapOptions);
+        
+        loader
+            .load()
+            .then((google) => {
+                new google.maps.Map(this.$map, mapOptions);
+            })
+            .catch(e => {
+                alert(e)
+            });
+    }
 
-        this.$positionButton.addEventListener("click", () => this.getCoordinates());
+    loadLocalStorage() {
+        if (localStorage.length) {
+            const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
+            this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + lsPosition.name;
+            this.$deleteButton.style.display = "block";
+        }
+    }
+
+    submitForm(event) {
+        event.preventDefault();
+
+        const input = this.$searchInput.value;
+        const isInputEmpty = !input.trim().length;
+
+        if(isInputEmpty) {
+            this.$searchButton.style.color = "#ee6352";
+            this.$searchButton.value = "First type a city!";
+            setTimeout(() => {
+                this.$searchButton.value = "Search";
+                this.$searchButton.style.color = "#fff";
+            }, 1500)
+        } else {
+            this.callLambdaFunction(input);
+        }
+    }
+
+    backToHome() {
+        this.currentDatas = "";
+        this.$city.innerHTML = "-";
+        this.$aqi.innerHTML = "-";
+        this.$aqiTitleDescription.innerHTML = "";
+        this.$aqiDescription.innerHTML = "";
+        this.$lastUpdate.innerHTML = "";
+        this.$searchInput.value = "";
+        this.$city.style.color = "#fff"
+        this.$aqi.style.color = "#fff";
+        this.$aqiTitleDescription.style.color = "#fff";
+        this.$aqiDescription.style.color = "#fff";
+        this.$map.innerHTML = `
+            <div id="homePage">
+                <h1>Air Quality Index Tracker</h1>
+                With this application you can check the <a href="https://aqicn.org/faq/" target="_blank">AQI</a> of the place you prefer:
+                <br><br>
+                <ul>
+                    <li>You can search for a specific city by typing it in the input text.</li>
+                    <br>
+                    <li>You can look for your nearest station, with the specific button and allowing geolocation on your browser.</li>
+                    <br>
+                    <li>You can save the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
+                    <br>
+                    <li>You can upload a saved position.</li>
+                </ul>
+                <br>
+                This is a project for the <a href="https://www.start2impact.it/">start2impact</a> Web Development course.
+                <br><br>
+                Made by <a href="https://github.com/paolodellorti/JS-Advanced">Paolo Dell'Orti</a>. 
+            </div>
+        `
     }
 
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => this.updateDatas(datas.data.city.name, datas.data.aqi))
-            .catch(err => alert(err.name === "TypeError" ? "Unknown city, please type another one!" : err))
+            .then(datas => this.updateDatas(datas))
+            .catch(err => {
+                if (err.name === "TypeError") {
+                    this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352");
+                } else {
+                    alert(err)
+                }
+            })
             .finally(this.$searchInput.value = "");
     }
 
-    getCoordinates() {
+    displayMessageButton (button, newValue, color) {
+        let oldValue = button.value;
+        button.style.color = color;
+        button.value = newValue;
+        setTimeout(() => {
+            button.style.color = "#fff";
+            button.value = oldValue;
+        }, 1500)
+    }
+
+    searchByCoordinates() {
         if(!navigator.geolocation) {
-            alert("Geolocation is not supported by your browser");
+            this.$positionButton.value = "Geolocation not available!"
+            this.$positionButton.style.color = "#ee6352";
         } else {
             const promise = new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
             
@@ -46,60 +160,99 @@ class App {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                })
-                .catch(error => alert(error));
+                    this.displayMessageButton(this.$positionButton, "Done!", "Get your position   \uD83D\uDEA9", "#59cd90")
+            })
+                .catch(error => {
+                    if (error.code == error.PERMISSION_DENIED) {
+                        this.displayMessageButton(this.$positionButton, "Allow geolocation to use it!", "#ee6352")
+                    } else {
+                        alert(error)
+                    }
+            });
         }
     }
 
-    checkCoordinatesFromLS(lat, lon) {
-        const hasRecord = localStorage.length
-        if (hasRecord) {
-            const coords = JSON.parse(localStorage.getItem("lastCoords"));
-            if (coords.lat !== lat || coords.lon !== lon) {
-                this.setCoordinatesToLS(lat, lon);
-            }
+    savePosition(datas) {
+        if (!this.currentDatas) {
+            this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352")
         } else {
-            this.setCoordinatesToLS(lat, lon);
+            this.$deleteButton.style.display = "block";
+            const positionInfo = {
+                name: datas.data.city.name,
+                idx: datas.data.idx
+            }
+            localStorage.setItem("savedPosition", JSON.stringify(positionInfo));
+            this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + positionInfo.name;
+            this.displayMessageButton(this.$saveButton, "Saved successfully!", "#59cd90")
         }
     }
 
-    setCoordinatesToLS(lat, lon) {
-        const coords = {"lat": lat, "lon": lon};
-        localStorage.setItem("lastCoords", JSON.stringify(coords));
-    }
-
-    displayLastPositionFromLS() {
-        if (localStorage.getItem("lastCoords")) {
-            const coords = JSON.parse(localStorage.getItem("lastCoords"));
-            this.searchByCoordinates(coords.lat, coords.lon);
+    uploadPosition() {
+        if (!localStorage.length) {
+            this.displayMessageButton(this.$uploadButton, "First save a position!", "#ee6352")
+        } else {
+            const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
+            const idx = `@${lsPosition.idx}`;
+            this.callLambdaFunction(idx);
+            this.displayMessageButton(this.$uploadButton, "Uploaded successfully!", "#59cd90")
         }
     }
 
-    updateDatas(city, aqi) {
-        this.$city.innerHTML = city;
-        this.$aqi.innerHTML = aqi;
-        this.changeColorByDanger(aqi);
+    deletePosition() {
+        this.$deleteButton.style.display = "none";
+        this.$savedPosition.innerHTML = "\uD83D\uDCBE";
+        localStorage.removeItem("savedPosition");
     }
 
-    changeColorByDanger(aqi) {
+    updateDatas(datas) {
+        this.$city.innerHTML = datas.data.city.name;
+        this.$aqi.innerHTML = datas.data.aqi;
+        this.$searchInput.value = "";
+        this.$lastUpdate.innerHTML = `Last update: ${datas.data.time.s}`
+        this.currentDatas = datas;
+        this.modifyByDanger(datas.data.aqi);
+        this.createMap(datas);
+    }
+
+    modifyByDanger(aqi) {
         if (aqi >= 0 && aqi <= 50) {
-            this.selectBorderAndTextColor("#009966");
+            this.selectTextColor("#009966");
+            this.$aqiTitleDescription.innerHTML = "Good";
+            this.$aqiDescription.innerHTML = `Air quality is considered satisfactory, 
+                                            and air pollution poses little or no risk.`;
         } else if (aqi >= 51 && aqi <= 100) {
-            this.selectBorderAndTextColor("#FFDE33");
+            this.selectTextColor("#FFDE33");
+            this.$aqiTitleDescription.innerHTML = "Moderate";
+            this.$aqiDescription.innerHTML = `Air quality is acceptable; however, for some pollutants 
+                                            there may be a moderate health concern for a very small 
+                                            number of people who are unusually sensitive to air pollution.`;
         } else if (aqi >= 101 && aqi <= 150) {
-            this.selectBorderAndTextColor("#FF9933");
+            this.selectTextColor("#FF9933");
+            this.$aqiTitleDescription.innerHTML = "Unhealthy for Sensitive Groups";
+            this.$aqiDescription.innerHTML = `Members of sensitive groups may experience health effects. 
+                                            The general public is not likely to be affected.`;
         } else if (aqi >= 151 && aqi <= 200) {
-            this.selectBorderAndTextColor("#CC0033");
+            this.selectTextColor("#CC0033");
+            this.$aqiTitleDescription.innerHTML = "Unhealthy";
+            this.$aqiDescription.innerHTML = `Everyone may begin to experience health effects; 
+                                            members of sensitive groups may experience more serious health effects`;
         } else if (aqi >= 201 && aqi <= 300) {
-            this.selectBorderAndTextColor("#660099");
+            this.selectTextColor("#660099");
+            this.$aqiTitleDescription.innerHTML = "Very Unhealthy";
+            this.$aqiDescription.innerHTML = `Health warnings of emergency conditions. 
+                                            The entire population is more likely to be affected.`;
         } else if (aqi > 300) {
-            this.selectBorderAndTextColor("#7E0023");
+            this.selectTextColor("#7E0023");
+            this.$aqiTitleDescription.innerHTML = "Hazardous";
+            this.$aqiDescription.innerHTML = `Health alert: everyone may experience more serious health effects.`;
         }
     }
 
-    selectBorderAndTextColor(color) {
-        this.$container.style.borderColor = color;
+    selectTextColor(color) {
         this.$aqi.style.color = color;
+        this.$city.style.color = color;
+        this.$aqiDescription.style.color = color;
+        this.$aqiTitleDescription.style.color = color;
     }
 
 
