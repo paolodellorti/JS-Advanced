@@ -183,18 +183,18 @@ class App {
             }
             localStorage.setItem("savedPosition", JSON.stringify(positionInfo));
             this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + positionInfo.name;
-            this.displayMessageButton(this.$saveButton, "Saved successfully!", "#59cd90")
+            this.displayMessageButton(this.$saveButton, "Saved successfully!", "#59cd90");
         }
     }
 
     uploadPosition() {
-        if (!localStorage.length) {
-            this.displayMessageButton(this.$uploadButton, "First save a position!", "#ee6352")
+        if (!localStorage.getItem("savedPosition")) {
+            this.displayMessageButton(this.$uploadButton, "First save a position!", "#ee6352");
         } else {
             const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
             const idx = `@${lsPosition.idx}`;
             this.callLambdaFunction(`city=${idx}`);
-            this.displayMessageButton(this.$uploadButton, "Uploaded successfully!", "#59cd90")
+            this.displayMessageButton(this.$uploadButton, "Uploaded successfully!", "#59cd90");
         }
     }
 
