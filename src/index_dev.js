@@ -188,7 +188,7 @@ class App {
     }
 
     uploadPosition() {
-        if (!localStorage.length) {
+        if (!localStorage.getItem("savedPosition")) {
             this.displayMessageButton(this.$uploadButton, "First save a position!", "#ee6352")
         } else {
             const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));

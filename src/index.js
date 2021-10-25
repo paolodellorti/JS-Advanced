@@ -160,7 +160,7 @@ class App {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                    this.displayMessageButton(this.$positionButton, "Done!", "Get your position   \uD83D\uDEA9", "#59cd90")
+                    this.displayMessageButton(this.$positionButton, "Done!", "#59cd90")
             })
                 .catch(error => {
                     if (error.code == error.PERMISSION_DENIED) {
