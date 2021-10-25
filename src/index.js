@@ -128,6 +128,7 @@ class App {
             .catch(err => {
                 if (err.name === "TypeError") {
                     this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352");
+                    this.$searchButton.value = "Search"
                 } else {
                     alert(err)
                 }
