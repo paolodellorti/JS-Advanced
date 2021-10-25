@@ -158,8 +158,8 @@ class App {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     this.callLambdaFunction(`lat=${lat}&lon=${lon}`);
-                    this.displayMessageButton(this.$positionButton, "Done!", "#59cd90")
             })
+                .then(this.displayMessageButton(this.$positionButton, "Done!", "#59cd90"))
                 .catch(error => {
                     if (error.code == error.PERMISSION_DENIED) {
                         this.displayMessageButton(this.$positionButton, "Allow geolocation to use it!", "#ee6352")
