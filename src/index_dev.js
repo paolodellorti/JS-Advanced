@@ -89,7 +89,7 @@ class App {
     }
 
     loadLocalStorage() {
-        if (localStorage.length) {
+        if (localStorage.getItem("savedPosition")) {
             const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
             this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + lsPosition.name;
             this.$deleteButton.style.display = "block";
