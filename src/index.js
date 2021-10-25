@@ -86,7 +86,7 @@ class App {
                 this.$searchButton.style.color = "#fff";
             }, 1500)
         } else {
-            this.callLambdaFunction(input);
+            this.callLambdaFunction(`city=${input}`);
         }
     }
 
@@ -193,7 +193,7 @@ class App {
         } else {
             const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
             const idx = `@${lsPosition.idx}`;
-            this.callLambdaFunction(idx);
+            this.callLambdaFunction(`city=${idx}`);
             this.displayMessageButton(this.$uploadButton, "Uploaded successfully!", "#59cd90")
         }
     }
