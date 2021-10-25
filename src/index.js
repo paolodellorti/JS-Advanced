@@ -77,14 +77,10 @@ class App {
         const isInputEmpty = !input.trim().length;
 
         if(isInputEmpty) {
-            this.$searchButton.style.color = "#ee6352";
-            this.$searchButton.value = "First type a city!";
-            setTimeout(() => {
-                this.$searchButton.value = "Search";
-                this.$searchButton.style.color = "#fff";
-            }, 1500)
+            this.displayMessageButton(this.$searchButton, "First type a city!", "#ee6352");
         } else {
             this.callLambdaFunction(`city=${input}`);
+            this.displayMessageButton(this.$searchButton, "Done!", "#59cd90");
         }
     }
 
@@ -125,7 +121,9 @@ class App {
     callLambdaFunction(query) {
         fetch(`/.netlify/functions/lambda?${query}`)
             .then(response => response.json())
-            .then(datas => this.updateDatas(datas))
+            .then(datas => {
+                this.updateDatas(datas);
+            })
             .catch(err => {
                 if (err.name === "TypeError") {
                     this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352");
