@@ -183,7 +183,7 @@ class App {
         const prevPosition = JSON.parse(localStorage.getItem("savedPosition"));
         if (!this.currentDatas) {
             this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352");
-        } else  if (datas.data.idx === prevPosition.idx) {
+        } else  if (datas.data.idx == prevPosition.idx) {
             this.displayMessageButton(this.$saveButton, "Position already saved!", "#ee6352")
         } else {
             this.$deleteButton.style.display = "block";
