@@ -19,6 +19,8 @@ exports.handler = async event => {
     } catch (error) {
       console.error(error);
     }
+  } else {
+      responseFromAPI = "Missing datas. City or Lat / Lon."
   }
 
   return {

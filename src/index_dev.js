@@ -123,6 +123,19 @@ class App {
             .catch(e => {
                 alert(e)
             });
+        
+        loader
+            .load()
+            .then((google) => {
+                const pos = new google.maps.LatLng(position);
+                new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                });
+            })
+            .catch(e => {
+                alert(e)
+            });
     }
 
     getCoordinates() {
@@ -167,8 +180,11 @@ class App {
     }
 
     savePosition(datas) {
+        const prevPosition = JSON.parse(localStorage.getItem("savedPosition");
         if (!this.currentDatas) {
-            this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352")
+            this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352");
+        } else  if (datas.data.idx === prevPosition.idx) {
+            this.displayMessageButton(this.$saveButton, "Position already saved!", "#ee6352")
         } else {
             this.$deleteButton.style.display = "block";
             const positionInfo = {

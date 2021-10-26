@@ -56,6 +56,12 @@ class App {
             .load()
             .then((google) => {
                 new google.maps.Map(this.$map, mapOptions);
+                new google.maps.Marker({
+                    position: position,
+                    map,
+                    title: "Hello World!",
+                  });
+                
             })
             .catch(e => {
                 alert(e)
