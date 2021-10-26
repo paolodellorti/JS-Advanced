@@ -119,7 +119,9 @@ class App {
                 <br>
                 This is a project for the <a href="https://www.start2impact.it/">start2impact</a> Web Development course.
                 <br><br>
-                Made by <a href="https://github.com/paolodellorti/JS-Advanced">Paolo Dell'Orti</a>. 
+                Full Code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank"></a>GitHub</a>.
+                <br><br>
+                Made by Paolo Dell'Orti. 
             </div>
         `
     }
