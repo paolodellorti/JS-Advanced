@@ -119,7 +119,7 @@ class App {
                 <br>
                 This is a project for the <a href="https://www.start2impact.it/">start2impact</a> Web Development course.
                 <br><br>
-                Full Code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>.
+                Full code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>.
                 <br><br>
                 Made by Paolo Dell'Orti. 
             </div>
@@ -179,8 +179,11 @@ class App {
     }
 
     savePosition(datas) {
+        const prevPosition = JSON.parse(localStorage.getItem("savedPosition"));
         if (!this.currentDatas) {
-            this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352")
+            this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352");
+        } else  if (datas.data.idx == prevPosition.idx) {
+            this.displayMessageButton(this.$saveButton, "Position already saved!", "#ee6352")
         } else {
             this.$deleteButton.style.display = "block";
             const positionInfo = {
@@ -189,9 +192,10 @@ class App {
             }
             localStorage.setItem("savedPosition", JSON.stringify(positionInfo));
             this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + positionInfo.name;
-            this.displayMessageButton(this.$saveButton, "Saved successfully!", "#59cd90");
+            this.displayMessageButton(this.$saveButton, "Saved successfully!", "#59cd90")
         }
     }
+
 
     uploadPosition() {
         if (!localStorage.getItem("savedPosition")) {
