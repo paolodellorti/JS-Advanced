@@ -119,7 +119,7 @@ class App {
                 <br>
                 This is a project for the <a href="https://www.start2impact.it/">start2impact</a> Web Development course.
                 <br><br>
-                Full Code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank"></a>GitHub</a>.
+                Full Code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>.
                 <br><br>
                 Made by Paolo Dell'Orti. 
             </div>
