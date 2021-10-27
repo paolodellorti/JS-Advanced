@@ -94,6 +94,7 @@ class App {
         this.currentDatas = "";
         this.$city.innerHTML = "-";
         this.$aqi.innerHTML = "-";
+        this.$aqi.style.fontSize = "";
         this.$aqiTitleDescription.innerHTML = "";
         this.$aqiDescription.innerHTML = "";
         this.$lastUpdate.innerHTML = "";
@@ -218,6 +219,7 @@ class App {
     updateDatas(datas) {
         this.$city.innerHTML = datas.data.city.name;
         this.$aqi.innerHTML = datas.data.aqi;
+        this.$aqi.style.fontSize = "2.5rem";
         this.$searchInput.value = "";
         this.$lastUpdate.innerHTML = `Last update: ${datas.data.time.s}`
         this.currentDatas = datas;

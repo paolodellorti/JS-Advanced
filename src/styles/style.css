@@ -40,10 +40,6 @@ body {
     padding: 3px;
 }
 
-#aqi {
-    font-size: 2rem;
-}
-
 #map {
     position: absolute;
     right: 0;
