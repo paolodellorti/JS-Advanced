@@ -179,7 +179,7 @@ class App {
     }
 
     savePosition(datas) {
-        const prevPosition = JSON.parse(localStorage.getItem("savedPosition"));
+        const prevPosition = JSON.parse(localStorage.getItem("savedPosition")) ? JSON.parse(localStorage.getItem("savedPosition")) : {idx: null};
         if (!this.currentDatas) {
             this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352");
         } else  if (datas.data.idx == prevPosition.idx) {
