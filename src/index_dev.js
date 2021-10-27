@@ -120,20 +120,12 @@ class App {
         loader
             .load()
             .then((google) => {
-                new google.maps.Map(this.$map, mapOptions);
-            })
-            .catch(e => {
-                alert(e)
-            });
-        
-        loader
-            .load()
-            .then((google) => {
-                const pos = new google.maps.LatLng(position);
+                const map = new google.maps.Map(this.$map, mapOptions);
                 new google.maps.Marker({
-                    position: pos,
+                    position: position,
                     map: map,
-                });
+                    title: datas.data.city.name,
+                  });
             })
             .catch(e => {
                 alert(e)

@@ -55,13 +55,12 @@ class App {
         loader
             .load()
             .then((google) => {
-                new google.maps.Map(this.$map, mapOptions);
+                const map = new google.maps.Map(this.$map, mapOptions);
                 new google.maps.Marker({
                     position: position,
-                    map,
-                    title: "Hello World!",
+                    map: map,
+                    title: datas.data.city.name,
                   });
-                
             })
             .catch(e => {
                 alert(e)
