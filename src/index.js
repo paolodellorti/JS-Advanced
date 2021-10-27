@@ -60,6 +60,7 @@ class App {
                     position: position,
                     map: map,
                     title: datas.data.city.name,
+                    animation: google.maps.Animation.DROP,
                   });
             })
             .catch(e => {
