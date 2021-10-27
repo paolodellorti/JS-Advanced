@@ -47,6 +47,7 @@ class App {
             this.displayMessageButton(this.$searchButton, "First type a city!", "#ee6352")
         } else {
             this.searchByInput(input);
+            this.$searchButton.value = "Searching..."
         }
     }
 
@@ -163,6 +164,7 @@ class App {
         fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => {
+                console.log(datas);
                 this.updateDatas(datas);
                 this.displayMessageButton(this.$positionButton, "Done!", "#59cd90")
             })
@@ -210,8 +212,10 @@ class App {
             .then(datas => {
                 if (datas.data === "Unknown station") {
                     this.errorUnknownCity();
+                    this.$searchButton.value = "Search";
                 } else {
                     this.updateDatas(datas);
+                    this.$searchButton.value = "Search";
                 }
             })
             .catch(error => alert(error));
