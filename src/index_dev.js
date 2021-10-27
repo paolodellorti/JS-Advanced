@@ -25,7 +25,7 @@ class App {
 
         this.addEventListeners();
         this.loadLocalStorage();
-        document.body.style.fontSize = "0.8rem"
+        document.body.style.fontSize = "0.8rem"; //solo per DEV
     };
 
     addEventListeners() {
@@ -212,10 +212,9 @@ class App {
             .then(datas => {
                 if (datas.data === "Unknown station") {
                     this.errorUnknownCity();
-                    this.$searchButton.value = "Search";
                 } else {
-                    this.updateDatas(datas);
                     this.$searchButton.value = "Search";
+                    this.updateDatas(datas);
                 }
             })
             .catch(error => alert(error));
@@ -223,6 +222,7 @@ class App {
 
     errorUnknownCity() {
         this.$searchInput.value = "";
+        this.$searchButton.value = "Search"
         this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352")
     }
 
