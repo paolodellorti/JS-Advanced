@@ -25,20 +25,16 @@ class App {
 
         this.addEventListeners();
         this.loadLocalStorage();
+        document.body.style.fontSize = "0.8rem"
     };
 
     addEventListeners() {
-        this.$form.addEventListener("submit", event => this.submitForm(event));    
-    
-        this.$positionButton.addEventListener("click", () => this.getCoordinates());
-
-        this.$saveButton.addEventListener("click", () => this.savePosition(this.currentDatas));
-
-        this.$uploadButton.addEventListener("click", () => this.uploadPosition());
-
-        this.$deleteButton.addEventListener("click", () => this.deletePosition());
-
         this.$homeButton.addEventListener("click", () => this.backToHome());
+        this.$form.addEventListener("submit", event => this.submitForm(event));    
+        this.$positionButton.addEventListener("click", () => this.getCoordinates());
+        this.$saveButton.addEventListener("click", () => this.savePosition(this.currentDatas));
+        this.$uploadButton.addEventListener("click", () => this.uploadPosition());
+        this.$deleteButton.addEventListener("click", () => this.deletePosition());
     }
 
     submitForm(event) {
@@ -69,23 +65,24 @@ class App {
         this.$map.innerHTML = `
             <div id="homePage">
                 <h1>Air Quality Index Tracker</h1>
-                With this application you can check the <a href="https://aqicn.org/faq/" target="_blank">AQI</a> of the place you prefer:
-                <br><br>
+                <a href="https://aqicn.org/faq/" target="_blank">What AQI is?</a>
+                <br>
+                <br>
+                With this application you can check the AQI of the place you prefer:
+                <br>
                 <ul>
-                    <li>You can search for a specific city by typing it in the input text.</li>
+                    <li>Searching for a specific city by typing it in the input text.</li>
                     <br>
-                    <li>You can look for your nearest station, with the specific button and allowing geolocation on your browser.</li>
+                    <li>Looking for your nearest station, with the specific button and allowing geolocation on your browser.</li>
                     <br>
-                    <li>You can save the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
+                    <li>Saving the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
                     <br>
-                    <li>You can upload a saved position.</li>
+                    <li>Uploading a saved position.</li>
                 </ul>
                 <br>
-                This is a project for the <a href="https://www.start2impact.it/">start2impact</a> Web Development course.
+                This is a project for the <a href="https://www.start2impact.it/" target="_blank">start2impact</a> Web Development course.
                 <br><br>
-                Full code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>.
-                <br><br>
-                Made by Paolo Dell'Orti. 
+                Full code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>. Made by Paolo Dell'Orti. 
             </div>
         `
     }
@@ -114,8 +111,6 @@ class App {
             center: position,
             zoom: 15,
         };
-
-        console.log(mapOptions);
         
         loader
             .load()
@@ -213,11 +208,9 @@ class App {
         fetch(`https://api.waqi.info/feed/${input}/?token=${this.API_KEY}`)
             .then(response => response.json())
             .then(datas => {
-                console.log(datas);
                 if (datas.data === "Unknown station") {
                     this.errorUnknownCity();
                 } else {
-                    console.log(datas);
                     this.updateDatas(datas);
                 }
             })
