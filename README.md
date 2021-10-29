@@ -16,6 +16,9 @@ User can search every place in the world by typing the city he prefers on the se
 It is also possible to save a position, and recall it when is necessary.
 <br>
 ### Home Page
+![homePage](https://user-images.githubusercontent.com/84512004/139426752-e70caabd-6d8a-43ae-8bcd-36ef56b6ddb3.png)
+### Random Page
+![page](https://user-images.githubusercontent.com/84512004/139426855-53d6674f-dfb2-4e64-8ab2-399f67d299ef.png)
 
 
 ## How to use
