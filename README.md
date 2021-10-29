@@ -74,7 +74,7 @@ But most important, I've started to understand how to set up a work environment:
 - installing dependencies like Webpack;
 - setting up Webpack and its loaders and plugin;
 - divide development mode and production mode;
-- get API keys from the services i needed;
+- get and use API keys from the services i needed;
 - working with environmental variables to hide API keys;
 - deploy on Netlify with serverless (lambda) functions.
 
