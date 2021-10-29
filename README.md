@@ -87,4 +87,4 @@ Paolo Dell'Orti
 - [LinkedIn](https://www.linkedin.com/in/paolo-dell-orti/)
 - [e-mail](mailto:paolodellorti@gmail.com?subject=[GitHub])
 
-[&#8593;](#air-quality-index-tracker)
+[&#8593; Back](#air-quality-index-tracker)
