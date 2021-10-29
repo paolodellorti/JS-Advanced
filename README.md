@@ -1,5 +1,5 @@
 # Air Quality Index Tracker
-This is a project for the Javascript Advanced module of the start2impact web development course.
+This is a project for the Javascript Advanced module of [start2impact](https://www.start2impact.it/) web development course.
 <br>
 ## Contents
 - [Description](#description)
@@ -15,7 +15,7 @@ The request was to make a small application wich **show you the level of polluti
 <br>
 User can **search every place in the world** by typing the city he prefers on the search bar, or he can **look for the nearest AQI station** by allowing geolocation on the browser.
 <br>
-It is also possible to **save** a position, and **recall** it when is necessary.
+It is also possible to **save** a position, and **recall** it when necessary.
 <br>
 ### Technologies
 - [JavaScript](https://javascript.info)
@@ -48,7 +48,7 @@ Before running it, remember to create a .env file with your AQI API_KEY, here's 
     API_KEY=yourtokenfromaqicn
 ```
 
-Once you've done this, go to index.js (line 55) and index_dev.js (line 72) and change the google API key with your:
+Once you've done this, go to src/index.js (line 55) and src/index_dev.js (line 72) and change the google API key with your:
 
 ```javascript
 	apiKey: "writeHereYourGoogleAPI_KEY",
