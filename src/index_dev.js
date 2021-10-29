@@ -24,10 +24,12 @@ class App {
         this.currentDatas;
 
         this.addEventListeners();
-        this.loadLocalStorage();
-        document.body.style.fontSize = "0.8rem"; //solo per DEV
+        this.loadFromLocalStorage();
+        this.backToHome();
+        document.body.style.fontSize = "0.8rem"; //only for DEV
     };
 
+    //All listeners here, i call them all togheter in costructor ↑
     addEventListeners() {
         this.$homeButton.addEventListener("click", () => this.backToHome());
         this.$form.addEventListener("submit", event => this.submitForm(event));    
@@ -35,6 +37,15 @@ class App {
         this.$saveButton.addEventListener("click", () => this.savePosition(this.currentDatas));
         this.$uploadButton.addEventListener("click", () => this.uploadPosition());
         this.$deleteButton.addEventListener("click", () => this.deletePosition());
+    }
+
+    //in case it finds record in local storage, it will load them
+    loadFromLocalStorage() {
+        if (localStorage.getItem("savedPosition")) {
+            const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
+            this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + lsPosition.name;
+            this.$deleteButton.style.display = "block";
+        }
     }
 
     submitForm(event) {
@@ -48,52 +59,6 @@ class App {
         } else {
             this.searchByInput(input);
             this.$searchButton.value = "Searching..."
-        }
-    }
-
-    backToHome() {
-        this.currentDatas = "";
-        this.$city.innerHTML = "-";
-        this.$aqi.innerHTML = "-";
-        this.$aqi.style.fontSize = "";
-        this.$aqiTitleDescription.innerHTML = "";
-        this.$aqiDescription.innerHTML = "";
-        this.$lastUpdate.innerHTML = "";
-        this.$searchInput.value = "";
-        this.$city.style.color = "#fff"
-        this.$aqi.style.color = "#fff";
-        this.$aqiTitleDescription.style.color = "#fff";
-        this.$aqiDescription.style.color = "#fff";
-        this.$map.innerHTML = `
-            <div id="homePage">
-                <h1>Air Quality Index Tracker</h1>
-                <a href="https://aqicn.org/faq/" target="_blank">What AQI is?</a>
-                <br>
-                <br>
-                With this application you can check the AQI of the place you prefer:
-                <br>
-                <ul>
-                    <li>Searching for a specific city by typing it in the input text.</li>
-                    <br>
-                    <li>Looking for your nearest station, with the specific button and allowing geolocation on your browser.</li>
-                    <br>
-                    <li>Saving the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
-                    <br>
-                    <li>Uploading a saved position.</li>
-                </ul>
-                <br>
-                This is a project for the <a href="https://www.start2impact.it/" target="_blank">start2impact</a> Web Development course.
-                <br><br>
-                Full code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>. Made by Paolo Dell'Orti. 
-            </div>
-        `
-    }
-
-    loadLocalStorage() {
-        if (localStorage.getItem("savedPosition")) {
-            const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
-            this.$savedPosition.innerHTML = "\uD83D\uDCBE" + " " + lsPosition.name;
-            this.$deleteButton.style.display = "block";
         }
     }
 
@@ -130,7 +95,19 @@ class App {
             });
     }
 
+    //getting coords of browser, and fetch datas by coords
     getCoordinates() {
+        const searchByCoordinates = (lat, lon) => {
+            fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.API_KEY}`)
+                .then(response => response.json())
+                .then(datas => {
+                    console.log(datas);
+                    this.updateDatas(datas);
+                    this.displayMessageButton(this.$positionButton, "Done!", "#59cd90")
+                })
+                .catch(error => alert(error));
+        }
+
         const hasNotGeolocation = !navigator.geolocation;
         if(hasNotGeolocation) {
             this.$positionButton.value = "Geolocation not available!"
@@ -139,7 +116,7 @@ class App {
             
             promise
                 .then(position => {
-                    this.searchByCoordinates(position.coords.latitude, position.coords.longitude);
+                    searchByCoordinates(position.coords.latitude, position.coords.longitude);
                 })
                 .catch(error => {
                     if (error.code == error.PERMISSION_DENIED) {
@@ -151,28 +128,23 @@ class App {
         }
     }
 
-    displayMessageButton (button, newValue, color) {
-        let oldValue = button.value;
+    //display succesfull/error messages on buttons, after clicking them
+    displayMessageButton (button, newValue, color) { 
+        const oldValue = button === this.$searchButton ? "Search"
+                       : button === this.$positionButton ? "Get your position \uD83D\uDEA9"
+                       : button === this.$saveButton ? "Save position \u2B73"
+                       : "Upload position \u2B71";
+
         button.style.color = color;
         button.value = newValue;
+
         setTimeout(() => {
             button.style.color = "#fff";
             button.value = oldValue;
         }, 1500)
     }
 
-    searchByCoordinates(lat, lon) {
-        fetch(`https://api.waqi.info/feed/geo:${lat};${lon}/?token=${this.API_KEY}`)
-            .then(response => response.json())
-            .then(datas => {
-                console.log(datas);
-                this.updateDatas(datas);
-                this.displayMessageButton(this.$positionButton, "Done!", "#59cd90")
-            })
-            .catch(error => alert(error));
-    }
-
-    savePosition(datas) { //aggiungere if se esiste la postion saved
+    savePosition(datas) {
         const prevPosition = JSON.parse(localStorage.getItem("savedPosition")) ? JSON.parse(localStorage.getItem("savedPosition")) : {idx: null};
         if (!this.currentDatas) {
             this.displayMessageButton(this.$saveButton, "First choose a position!", "#ee6352");
@@ -190,6 +162,7 @@ class App {
         }
     }
 
+    //deleting saved position
     deletePosition() {
         this.$deleteButton.style.display = "none";
         this.$savedPosition.innerHTML = "\uD83D\uDCBE";
@@ -201,8 +174,8 @@ class App {
             this.displayMessageButton(this.$uploadButton, "First save a position!", "#ee6352")
         } else {
             const lsPosition = JSON.parse(localStorage.getItem("savedPosition"));
-            const idx = `@${lsPosition.idx}`;
-            this.searchByInput(idx)
+            const idxQuery = `@${lsPosition.idx}`;
+            this.searchByInput(idxQuery)
             this.displayMessageButton(this.$uploadButton, "Uploaded successfully!", "#59cd90")
         }
     }
@@ -212,7 +185,9 @@ class App {
             .then(response => response.json())
             .then(datas => {
                 if (datas.data === "Unknown station") {
-                    this.errorUnknownCity();
+                    this.$searchInput.value = "";
+                    this.$searchButton.value = "Search"
+                    this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352")            
                 } else {
                     this.$searchButton.value = "Search";
                     this.updateDatas(datas);
@@ -221,12 +196,7 @@ class App {
             .catch(error => alert(error));
     }
 
-    errorUnknownCity() {
-        this.$searchInput.value = "";
-        this.$searchButton.value = "Search"
-        this.displayMessageButton(this.$searchButton, "Not found, try another one!", "#ee6352")
-    }
-
+    //updating all visible datas
     updateDatas(datas) {
         this.$city.innerHTML = datas.data.city.name;
         this.$aqi.innerHTML = datas.data.aqi;
@@ -277,6 +247,44 @@ class App {
         this.$city.style.color = color;
         this.$aqiDescription.style.color = color;
         this.$aqiTitleDescription.style.color = color;
+    }
+
+    backToHome() {
+        this.currentDatas = "";
+        this.$city.innerHTML = "-";
+        this.$aqi.innerHTML = "-";
+        this.$aqi.style.fontSize = "";
+        this.$aqiTitleDescription.innerHTML = "";
+        this.$aqiDescription.innerHTML = "";
+        this.$lastUpdate.innerHTML = "";
+        this.$searchInput.value = "";
+        this.$city.style.color = "#fff"
+        this.$aqi.style.color = "#fff";
+        this.$aqiTitleDescription.style.color = "#fff";
+        this.$aqiDescription.style.color = "#fff";
+        this.$map.innerHTML = `
+            <div id="homePage">
+                <h1>Air Quality Index Tracker</h1>
+                <a href="https://aqicn.org/faq/" target="_blank">What AQI is?</a>
+                <br>
+                <br>
+                With this application you can check the AQI of the place you prefer:
+                <br>
+                <ul>
+                    <li>Searching for a specific city by typing it in the input text.</li>
+                    <br>
+                    <li>Looking for your nearest station, with the specific button and allowing geolocation on your browser.</li>
+                    <br>
+                    <li>Saving the current position. If you do that, datas will be saved just on your browser, and they will be available also refreshing the page. Delete them by clicking on &#9249; button.</li>
+                    <br>
+                    <li>Uploading a saved position.</li>
+                </ul>
+                <br>
+                This is a project for the <a href="https://www.start2impact.it/" target="_blank">start2impact</a> Web Development course.
+                <br><br>
+                Full code on <a href="https://github.com/paolodellorti/JS-Advanced" target="_blank">GitHub</a>. Made by Paolo Dell'Orti. 
+            </div>
+        `
     }
 }
 

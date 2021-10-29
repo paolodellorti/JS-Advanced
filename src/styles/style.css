@@ -7,12 +7,6 @@ body {
     overflow: hidden;
 }
 
-#map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 #container {
     position: absolute;
     top: 0;
@@ -44,12 +38,15 @@ body {
     position: absolute;
     right: 0;
     bottom: 0;
+    height: 90vh;
+    width: 75vw;
     background-image: url("https://www.pixblick.de/images/product_images/original_images/fototapete_chicago%20(1).jpg");
     background-repeat: no-repeat;
     background-position: left;
     background-size: cover;
-    height: 90vh;
-    width: 75vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #form {
@@ -65,12 +62,40 @@ body {
     color: #fff;
 }
 
+#homeButton {
+    font-size: 2.5rem;
+    width: 60%;
+}
+
+#homeButton:hover {
+    color: #202020;
+}
+
+#homeButton,
+#inputContainer,
 #positionButton,
 #saveButton,
-#uploadButton,
-#homeButton,
-#inputContainer {
+#uploadButton {
     height: 100%;
+    width: 100%;
+    border: none;
+    text-decoration: none;
+    cursor: default;
+}
+
+#homeButton:hover,
+#searchButton:hover,
+#positionButton:hover,
+#saveButton:hover,
+#uploadButton:hover {
+    background-color: #606060;
+    transition: all 0.3s;
+}
+
+
+#searchInput,
+#searchButton {
+    height: 50%;
     width: 100%;
     border: none;
     text-decoration: none;
@@ -102,40 +127,12 @@ body {
     color: #fff;
 }
 
-#searchInput,
-#searchButton {
-    height: 50%;
-    width: 100%;
-    border: none;
-    text-decoration: none;
-    cursor: default;
-}
-
-#homeButton {
-    font-size: 2.5rem;
-    width: 60%;
-}
-
-#homeButton:hover {
-    color: #202020;
-}
-
 #positionButton,
 #homeButton,
 #uploadButton {
     background-color: #202020;
     color: #fff;
 }
-
-#positionButton:hover,
-#homeButton:hover,
-#uploadButton:hover,
-#saveButton:hover,
-#searchButton:hover {
-    background-color: #606060;
-    transition: all 0.3s;
-}
-
 
 
 #saveButton,
@@ -156,34 +153,34 @@ body {
     text-align: left;
 }
 
-ul { 
+#homePage ul { 
     padding: 0;
 }
 
-li {
+#homePage li {
     text-align: left;
 }
 
-a {
+#homePage a {
     transition: all 0.2s;
 }
 
-a:link {
+#homePage a:link {
     color: #59cd90;
     text-decoration: none;
   }
 
-a:visited {
+#homePage a:visited {
     color: #59cd90;
     text-decoration: none;
 }
 
-a:hover {
+#homePage a:hover {
     color: #2C925C;
     text-decoration: none;
 }
 
-a:active {
+#homePage a:active {
     color: #59cd90;
     text-decoration: none;
 }
