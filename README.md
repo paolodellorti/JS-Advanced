@@ -31,7 +31,7 @@ It is also possible to **save** a position, and **recall** it when necessary.
 
 ## App Deployment
 This application has been deployed on Netlify. You can check it here:<br>
-https://js-advanced-paolodellorti.netlify.app/
+[js-advanced-paolodellorti.netlify.app](https://js-advanced-paolodellorti.netlify.app/)
 
 ---
 
@@ -70,13 +70,13 @@ First deveolping this project let me improve my coding skills in javascript: <br
 I've started to create and use classes and methods, to fetch and manage datas from servers.
 <br>
 But most important, I've started to understand how to set up a work environment:
-- setting up Node.js
-- installing dependencies like Webpack
-- setting up Webpack and its loaders and plugin
-- divide development mode and production mode
-- get API keys from the services i needed
-- working with environmental variables to hide api keys
-- deploy it on Netlify with serverless (lambda) functions
+- setting up Node.js;
+- installing dependencies like Webpack;
+- setting up Webpack and its loaders and plugin;
+- divide development mode and production mode;
+- get API keys from the services i needed;
+- working with environmental variables to hide API keys;
+- deploy on Netlify with serverless (lambda) functions.
 
 ---
 
