@@ -83,6 +83,4 @@ But most important, I've started to understand how to set up a work environment:
 ## Contacts
 
 - [LinkedIn](https://www.linkedin.com/in/paolo-dell-orti/)
-- [e-mail](paolodellorti@gmail.com)
-
-
+- [e-mail](mailto:paolodellorti@gmail.com?subject=[GitHub]%20Source%20Han%20Sans)
