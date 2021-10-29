@@ -30,8 +30,8 @@ It is also possible to **save** a position, and **recall** it when is necessary.
 ---
 
 ## App Deployment
-This application has been deployed on Netlify. You can check it here:
-https://js-advanced-paolodellorti.netlify.app/ .
+This application has been deployed on Netlify. You can check it here:<br>
+https://js-advanced-paolodellorti.netlify.app/
 
 ---
 
