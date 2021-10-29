@@ -3,7 +3,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 class App {
     constructor() {
-        this.API_KEY = process.env.API_KEY;
+        this.API_KEY = process.env.API_KEY; //write your API_KEY in a .env file
 
         this.$city = document.querySelector("#city");
         this.$aqi = document.querySelector("#aqi");
@@ -69,7 +69,7 @@ class App {
         };
         
         const loader = new Loader({
-            apiKey: "AIzaSyBGIB2DTt9s_HsZmOfxDimB9FkA_f_b5ws",
+            apiKey: "AIzaSyBGIB2DTt9s_HsZmOfxDimB9FkA_f_b5ws", //restricted to my domain at google maps developer console. write your api key to use it
             version: "weekly",
             libraries: ["places"]
           });

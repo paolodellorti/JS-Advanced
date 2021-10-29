@@ -52,7 +52,7 @@ class App {
         };
         
         const loader = new Loader({
-            apiKey: "AIzaSyBGIB2DTt9s_HsZmOfxDimB9FkA_f_b5ws",
+            apiKey: "AIzaSyBGIB2DTt9s_HsZmOfxDimB9FkA_f_b5ws", //restricted to my domain at google maps developer console. write your api key to use it
             version: "weekly",
             libraries: ["places"]
           });
