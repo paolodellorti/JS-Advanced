@@ -66,7 +66,7 @@ to start it in a live server.
 ---
 
 ## What I've Learned
-First deveolping this project let me improve my coding skills in javascript: <br>
+Developing this project first let me improve my coding skills in javascript: <br>
 I've started to create and use classes and methods, to fetch and manage datas from servers.
 <br>
 But most important, I've started to understand how to set up a work environment:
