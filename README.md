@@ -82,5 +82,7 @@ But most important, I've started to understand how to set up a work environment:
 
 ## Contacts
 
+Paolo Dell'Orti
+
 - [LinkedIn](https://www.linkedin.com/in/paolo-dell-orti/)
 - [e-mail](mailto:paolodellorti@gmail.com?subject=[GitHub])
